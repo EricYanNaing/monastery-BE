@@ -23,13 +23,29 @@ exports.create = async (req, res) => {
 };
 
 exports.findAll = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;  // Default to page 1 if not provided
+  const limit = parseInt(req.query.limit) || 10;  // Default to 10 items per page
+  console.log(`Fetching items for page: ${page}, limit: ${limit}`);
+
   try {
-    const items = await Item.find({ userId: req.user.id });
-    res.json(items);
+    const items = await Item.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const total = await Item.countDocuments();
+
+    res.json({
+      items,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
+    console.error("Error retrieving items:", error);
     res.status(500).json({ message: 'Error retrieving items' });
   }
 };
+
 
 exports.findOne = async (req, res) => {
   try {
