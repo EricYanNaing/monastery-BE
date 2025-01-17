@@ -29,7 +29,7 @@ exports.findAll = async (req, res) => {
   console.log(`Fetching items for page: ${page}, limit: ${limit}`);
 
   try {
-    const items = await Item.find().skip((page - 1) * limit).limit(limit);
+    const items = await Item.find().sort({resetForm : -1 }).skip((page - 1) * limit).limit(limit);
 
     const total = await Item.countDocuments();
 
