@@ -16,6 +16,10 @@ const itemSchema = new mongoose.Schema({
   photos: [{
     type: String
   }],
+  date: {
+    type: String,
+    default: ''
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
