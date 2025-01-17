@@ -2,7 +2,7 @@ const Item = require('../models/item.model');
 
 exports.create = async (req, res) => {
   try {
-    const { name, description, remark, photos } = req.body;
+    const { name, description, remark, photos, date } = req.body;
 
     if (!name || !description) {
       return res.status(400).json({ message: 'Name and description are required' });
@@ -11,6 +11,7 @@ exports.create = async (req, res) => {
     const item = await Item.create({
       name,
       description,
+      date,
       remark: remark || '',
       photos: photos || [],
       userId: req.user.id
@@ -59,10 +60,10 @@ exports.findOne = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { name, description, remark, photos } = req.body;
+    const { name, description, remark, photos , date } = req.body;
     const updatedItem = await Item.findOneAndUpdate(
       { _id: req.params.id, userId: req.user.id },
-      { name, description, remark, photos },
+      { name, description, remark, photos, date },
       { new: true }
     );
 
