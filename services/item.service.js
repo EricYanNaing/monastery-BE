@@ -2,7 +2,7 @@ const Item = require('../models/item.model');
 
 exports.create = async (req, res) => {
   try {
-    const { name, description, remark, photos, date } = req.body;
+    const { name, description, remark, photos, date, userId } = req.body;
 
     if (!name || !description) {
       return res.status(400).json({ message: 'Name and description are required' });
@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
       date,
       remark: remark || '',
       photos: photos || [],
-      userId: req.user.id
+      userId,
     });
 
     res.status(201).json(item);
