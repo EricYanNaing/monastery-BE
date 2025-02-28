@@ -1,8 +1,11 @@
 const Item = require('../models/item.model');
+import mongoose from 'mongoose';
 
 exports.create = async (req, res) => {
   try {
     const { name, description, remark, photos, date, userId } = req.body;
+    const user_Id = new mongoose.Types.ObjectId(userId);
+
 
     if (!name || !description) {
       return res.status(400).json({ message: 'Name and description are required' });
@@ -14,7 +17,7 @@ exports.create = async (req, res) => {
       date,
       remark: remark || '',
       photos: photos || [],
-      userId,
+      userId: user_Id,
     });
 
     res.status(201).json(item);
