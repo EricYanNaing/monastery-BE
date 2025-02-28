@@ -1,10 +1,12 @@
 const Item = require('../models/item.model');
-import mongoose from 'mongoose';
+const mongoose = require('mongoose')
 
 exports.create = async (req, res) => {
   try {
     const { name, description, remark, photos, date, userId } = req.body;
-    const user_Id = new mongoose.Types.ObjectId(userId);
+    const user_Id = mongoose.Types.ObjectId.isValid(userId)
+    ? new mongoose.Types.ObjectId(userId)
+    : null;
 
 
     if (!name || !description) {
